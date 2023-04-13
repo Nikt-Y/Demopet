@@ -18,7 +18,7 @@
 "frequent_activity" = "Performing activities too often!";
 "once_per" = "This activity can be performed only once in %d h.";
 "later" = "I'll try later";
-"overfulfilment" = "OVERFULFILMENT of ACTIVITY";
+"overfulfilment" = "OVERFULFILMENT OF ACTIVITY";
 "already_100" = "This activity has already been completed by 100%.";
 "start_activity" = "Start activity";
 "open_history" = "View history";
@@ -58,10 +58,10 @@
 "need_healing" = "I'm not feeling well, I need healing!"; // "I'm not feeling well, I need healing!"
 "need_cleaning" = "Please clean up after me!";
 "open" = "Open";
-"your_willingness" = "Your willingness to become the owner of this pet is evaluated in";
+"your_willingness" = "Your willingness to become the owner of this pet is estimated at";
 "schedule" = "Schedule";
 "edit_schedule" = "Edit Schedule";
-"random_event" = "Random event";
+"random_event" = "A rare event";
 "cat" = "Cat";
 "dog" = "Dog";
 "fish" = "Fish";
@@ -78,4 +78,4 @@
 "home_tutorial" = "Greetings! The main purpose of this application is to give you the opportunity to understand whether you are really ready to take responsibility for your pet. You can select a pet to interact with in the drop-down list at the top. You can also add new pets there. If the pet needs something, he will inform you about it in the form of a cloud with a message. You can click on this cloud to proceed to the activity.";
 "status_tutorial" = "Here you can see more detailed statistics for each activity. This is a VERY \"realistic\" simulator, so in order to perform any activity, you need to spend a real amount of time on it...";
 "profile_tutorial" = "The application takes into account not only the current state of the pet, but also the history of activities. Based on this, it gives out the percentage of your readiness for the establishment of a real pet.";
-"okey" = "OKEY";
+"okey" = "OKAY";

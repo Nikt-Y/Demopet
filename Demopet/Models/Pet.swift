@@ -299,22 +299,16 @@ struct Pet: Codable {
 }
 
 extension Pet {
-    static let example1 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "Fluffy", age: 2, male: true, animalType: .dog, petStatus: PetStatus(satiety: 100, health: 100, walks: 100, games: 100), activityHistory: [
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 1800, activityType: .walk),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .walk),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .game),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
-    ] , schedule: [.walk:[Date(), Date(), Date()], .healing: [Date(), Date(), Date()], .feeding: [Date(), Date(), Date()], .game:[Date(), Date(), Date()]])
-    
-    static let example2 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "adsaads", age: 2, male: true, animalType: .cat, petStatus: PetStatus(satiety: 100, health: 100, walks: 100, games: 100), activityHistory: [
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
-    ], schedule: [.healing: [Date()], .feeding: [Date(), Date(), Date()], .game: [Date(), Date(), Date()]])
-    
-    static let example3 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "dog", age: 2, male: true, animalType: .dog, petStatus: PetStatus(satiety: 0, health: 0, walks: 0, games: 0), activityHistory: [] , schedule: [.walk:[Date(), Date(), Date()], .healing: [Date(), Date(), Date()], .feeding: [Date(), Date(), Date()], .game:[Date(), Date(), Date()]])
-    
-    static let example4 = Pet(date: Date(), name: "", age: 2, male: true, animalType: .cat, petStatus: PetStatus(), activityHistory: [
-    ], schedule: [:])
+    static let example1 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "Yuumi", age: 2, male: true, animalType: .cat, petStatus: PetStatus(satiety: 66, health: 100, walks: 100, games: 100), activityHistory: [
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -2, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, duration: 240, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -3, to: Date())!, duration: 240, activityType: .feeding),
+    ] , schedule: [.healing: [Date()], .feeding: [Date(), Date(), Date()], .game:[Date()], .сleaning:[Date()]])
 }
 
