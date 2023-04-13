@@ -44,6 +44,7 @@ struct CustomTabView: View {
                     .foregroundColor(selection == 0 ? tabAccentColor() : Color(hex: "2e2e2e"))
                 }
                 .padding(.leading, 30)
+                .buttonStyle(PlainButtonStyle())
                 Spacer()
                 
                 Button(action: {
@@ -57,6 +58,7 @@ struct CustomTabView: View {
                     }
                     .foregroundColor(selection == 1 ? tabAccentColor() : Color(hex: "2e2e2e"))
                 }
+                .buttonStyle(PlainButtonStyle())
                 Spacer()
                 
                 Button(action: {
@@ -70,6 +72,7 @@ struct CustomTabView: View {
                     }
                     .foregroundColor(selection == 2 ? tabAccentColor() : Color(hex: "2e2e2e"))
                 }
+                .buttonStyle(PlainButtonStyle())
                 .padding(.trailing, 30)
             }
             .padding()
@@ -113,9 +116,9 @@ struct MainView: View {
                     VStack {
                         Spacer()
                         CustomAlertView(
-                            title: "Случилась беда!",
-                            message: "К сожалению, за время вашего отсутствия от недостатка заботы скончались:\n\(petViewModel.deadPets.map { $0.name }.joined(separator: ", "))",
-                            primaryButtonTitle: "F",
+                            title: NSLocalizedString("trouble_has_happened", comment: ""),
+                            message: String(format: NSLocalizedString("deads", comment: ""), petViewModel.deadPets.map { $0.name }.joined(separator: ", ")),
+                            primaryButtonTitle: NSLocalizedString("get_better", comment: ""),
                             primaryButtonAction: {petViewModel.clearDeads()},
                             secondaryButtonTitle: "",
                             secondaryButtonAction: {}

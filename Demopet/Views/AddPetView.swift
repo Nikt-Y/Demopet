@@ -12,6 +12,7 @@ struct AddPetView: View {
     @ObservedObject var petViewModel = PetViewModel.shared
     @State var step: Int
     @StateObject var viewModel = AddPetViewModel()
+    @State public var validationError: String? = nil
     
     var body: some View {
         ZStack {
@@ -30,9 +31,9 @@ struct AddPetView: View {
                 
                 if step == 0 {
                     CustomAlertView(
-                        title: "Давайте создадим нового питомца!",
+                        title: NSLocalizedString("lets_create", comment: ""),
                         message: "",
-                        primaryButtonTitle: "НАЧАТЬ",
+                        primaryButtonTitle: NSLocalizedString("start", comment: ""),
                         primaryButtonAction: {
                             step = 1
                         },
@@ -62,9 +63,9 @@ struct AddPetView: View {
                 VStack {
                     Spacer()
                     CustomAlertView(
-                        title: "Случилась беда!",
-                        message: "К сожалению, за время вашего отсутствия от недостатка заботы скончались:\n\(petViewModel.deadPets.map { $0.name }.joined(separator: ", "))",
-                        primaryButtonTitle: "F",
+                        title: NSLocalizedString("trouble_has_happened", comment: ""),
+                        message: String(format: NSLocalizedString("deads", comment: ""), petViewModel.deadPets.map { $0.name }.joined(separator: ", ")),
+                        primaryButtonTitle: NSLocalizedString("get_better", comment: ""),
                         primaryButtonAction: {petViewModel.clearDeads()},
                         secondaryButtonTitle: "",
                         secondaryButtonAction: {}
@@ -79,14 +80,33 @@ struct AddPetView: View {
     
     private func createNewPetView() -> some View {
         VStack {
-            TextField("Кличка", text: $viewModel.name)
+            TextField(NSLocalizedString("name", comment: ""), text: $viewModel.name)
+                .onChange(of: viewModel.name) { _ in
+                    withAnimation {
+                        validationError = viewModel.validateName()
+                    }
+                }
+                .autocorrectionDisabled(true)
                 .padding(9)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
                 .padding(.bottom)
+                .onAppear(){
+                    validationError = viewModel.validateName()
+                }
+            HStack {
+                if let error = validationError {
+                    Text(error)
+                        .font(.footnote)
+                        .foregroundColor(.red)
+                        .padding(.bottom)
+                }
+                
+                Spacer()
+            }
             
             HStack {
-                Text("Вид животного:").padding(.trailing, 10)
+                Text("type").padding(.trailing, 10)
                 Spacer()
                 Menu {
                     Picker("fsdf", selection: $viewModel.selectedPetType) {
@@ -109,33 +129,34 @@ struct AddPetView: View {
             
             
             HStack {
-                Text("Возраст:")
+                Text("age")
                 Spacer()
                 Stepper(value: $viewModel.petAge, in: 0.5...5, step: 0.5) {
-                    Text("\(viewModel.petAge, specifier: "%.1f") years")
+                    Text(String(format: NSLocalizedString("age_count", comment: ""), viewModel.petAge))
                 }
                 
             }.padding(.bottom)
             
             HStack {
-                Text("Пол:")
+                Text("gender")
                 Spacer()
                 Picker("Gender", selection: $viewModel.isMale) {
-                    Text("Муж.").tag(true)
-                    Text("Жен.").tag(false)
+                    Text("male").tag(true)
+                    Text("female").tag(false)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 
             }.padding(.bottom)
             
             Button(action: {
+                guard validationError == nil else {return}
                 step = 2
                 viewModel.saveNewPet()
             }) {
-                Text("Продолжить")
+                Text("continue")
                     .foregroundColor(.white)
                     .padding()
-                    .background(Color(hex: "2e2e2e"))
+                    .background(validationError == nil ? Color(hex: "2e2e2e") : Color.gray)
                     .cornerRadius(8)
             }
         }
@@ -147,39 +168,48 @@ struct AddPetView: View {
     
     private func editTimeView() -> some View {
         VStack {
+            Text("choose_time")
+                .font(.title3)
+                .multilineTextAlignment(.center)
+                .padding(.bottom, 10)
             ForEach(ActivityType.allCases) { activity in
-                if let frequency = viewModel.schedule[activity] {
-                    Text("\(activity.title()) - расписание")
-                    ForEach(frequency.indices, id: \.self) { index in
-                        DatePicker("\(activity.title()) - время \(index+1)", selection: Binding(
-                            get: { viewModel.schedule[activity]?[index] ?? Date() },
-                            set: { newValue in
-                                viewModel.schedule[activity]?[index] = newValue
-                            }), displayedComponents: .hourAndMinute)
-                    }
-                    
-                    HStack {
-                        Button(action: {
-                            viewModel.addTime(for: activity)
-                        }) {
-                            Text("Добавить время")
-                                .padding(.vertical,5)
-                                .padding(.horizontal)
-                                .background(Color(hex: "2e2e2e"))
-                                .foregroundColor(.white)
-                                .cornerRadius(8)
+                if petViewModel.currentPet.animalType.getActivitiesFrequency(of: activity).unit == .day {
+                    if let frequency = viewModel.schedule[activity] {
+                        Text(String(format: NSLocalizedString("schedule_of", comment: ""), activity.title()))
+                        ForEach(frequency.indices, id: \.self) { index in
+                            let range = viewModel.getDatePickerRange(index: index, totalCount: frequency.count)
+                            let defaultDate = range.lowerBound
+                            let rangeText = viewModel.formatRangeAsString(range)
+                            DatePicker(String(format: NSLocalizedString("time_num_of", comment: ""), activity.title(), index+1, rangeText),
+                                       selection: Binding(
+                                get: { viewModel.schedule[activity]?[index] ?? defaultDate },
+                                set: { newValue in
+                                    viewModel.schedule[activity]?[index] = newValue
+                                }), in: range, displayedComponents: .hourAndMinute)
                         }
-                        Spacer()
-                        if viewModel.selectedPetType.getActivitiesFrequency(of: activity).count < frequency.count {
+                        HStack {
                             Button(action: {
-                                viewModel.deleteTime(for: activity)
+                                viewModel.addTime(for: activity)
                             }) {
-                                Text("Удалить время")
+                                Text("add_time")
                                     .padding(.vertical,5)
                                     .padding(.horizontal)
-                                    .background(Color.red)
+                                    .background(Color(hex: "2e2e2e"))
                                     .foregroundColor(.white)
                                     .cornerRadius(8)
+                            }
+                            Spacer()
+                            if viewModel.selectedPetType.getActivitiesFrequency(of: activity).count < frequency.count {
+                                Button(action: {
+                                    viewModel.deleteTime(for: activity)
+                                }) {
+                                    Text("delete_time")
+                                        .padding(.vertical,5)
+                                        .padding(.horizontal)
+                                        .background(Color.red)
+                                        .foregroundColor(.white)
+                                        .cornerRadius(8)
+                                }
                             }
                         }
                     }
@@ -189,7 +219,7 @@ struct AddPetView: View {
                 viewModel.saveNewSchedule()
                 presentationMode.wrappedValue.dismiss()
             }) {
-                Text("Сохранить")
+                Text("save")
                     .foregroundColor(.white)
                     .padding()
                     .background(Color(hex: "2e2e2e"))
@@ -205,6 +235,6 @@ struct AddPetView: View {
 
 struct AddPetView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPetView(step: 0)
+        AddPetView(step: 2)
     }
 }

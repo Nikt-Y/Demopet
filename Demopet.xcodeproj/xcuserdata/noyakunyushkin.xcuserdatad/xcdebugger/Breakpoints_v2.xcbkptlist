@@ -20,5 +20,85 @@
             landmarkType = "7">
          </BreakpointContent>
       </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "4B8F25D8-D07A-405B-B6A5-08BC6B83AAE1"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Demopet/ViewModels/ActivityInfoViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "53"
+            endingLineNumber = "53"
+            landmarkName = "getActivityHistory(of:week:)"
+            landmarkType = "7">
+            <Locations>
+               <Location
+                  uuid = "4B8F25D8-D07A-405B-B6A5-08BC6B83AAE1 - c4f497e72057ed4b"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "Demopet.ActivityInfoViewModel.getActivityHistory(of: Demopet.ActivityType, week: Swift.Int) -&gt; Swift.Array&lt;Demopet.ActivityHistoryItem&gt;"
+                  moduleName = "Demopet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noyakunyushkin/Desktop/%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Demopet/Demopet/ViewModels/ActivityInfoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "4484">
+               </Location>
+               <Location
+                  uuid = "4B8F25D8-D07A-405B-B6A5-08BC6B83AAE1 - 1ca5e18bdea8d1b7"
+                  shouldBeEnabled = "Yes"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "closure #1 (Demopet.ActivityHistoryItem, Demopet.ActivityHistoryItem) -&gt; Swift.Bool in Demopet.ActivityInfoViewModel.getActivityHistory(of: Demopet.ActivityType, week: Swift.Int) -&gt; Swift.Array&lt;Demopet.ActivityHistoryItem&gt;"
+                  moduleName = "Demopet"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/noyakunyushkin/Desktop/%D0%BF%D1%80%D0%BE%D0%B5%D0%BA%D1%82%D1%8B/Demopet/Demopet/ViewModels/ActivityInfoViewModel.swift"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "52"
+                  endingLineNumber = "52"
+                  offsetFromSymbolStart = "140">
+               </Location>
+            </Locations>
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "AD6FE1FE-503B-48D1-9D57-9AA58AFFB1B2"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Demopet/ViewModels/ActivityInfoViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "16"
+            endingLineNumber = "16"
+            landmarkName = "getActivityHistory(of:week:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            uuid = "8D1BA065-5367-49DA-AA30-EF033AAB6E6A"
+            shouldBeEnabled = "Yes"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "Demopet/ViewModels/AddPetViewModel.swift"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "83"
+            endingLineNumber = "83"
+            landmarkName = "fillNewSchedule(for:)"
+            landmarkType = "7">
+         </BreakpointContent>
+      </BreakpointProxy>
    </Breakpoints>
 </Bucket>

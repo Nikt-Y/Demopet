@@ -14,7 +14,7 @@ class ActivityInfoViewModel: ObservableObject {
     
     func getActivityHistory(of activityType: ActivityType, week: Int) -> [ActivityHistoryItem] {
         let history = petViewModel.getPetActivityHistory(type: activityType)
-
+        
         let calendar = Calendar.current
         let now = Date()
         let currentWeekStart = calendar.date(from: calendar.dateComponents([.yearForWeekOfYear, .weekOfYear], from: now))!
@@ -45,7 +45,8 @@ class ActivityInfoViewModel: ObservableObject {
         var activityHistoryItems: [ActivityHistoryItem] = []
         for (day, duration) in dailyDurations {
             let date = calendar.date(byAdding: .day, value: day, to: weekStart)!
-            let historyItem = ActivityHistoryItem(date: date, duration: duration, activityType: activityType)
+            let maxDur = petViewModel.currentPet.animalType.getDuration(of: activityType)*Double(petViewModel.currentPet.animalType.getActivitiesFrequency(of: activityType).count)
+            let historyItem = ActivityHistoryItem(date: date, duration: min(duration, maxDur), activityType: activityType)
             activityHistoryItems.append(historyItem)
         }
 

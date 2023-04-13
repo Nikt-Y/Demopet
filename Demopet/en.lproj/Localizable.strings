@@ -1,0 +1,81 @@
+/* 
+  Localizable.strings
+  Demopet
+
+  Created by Nik Y on 19.04.2023.
+  
+*/
+"notif_title" = "%@ needs %@";
+"notif_body" = "It's time to %@ with %@.";
+"enter_name" = "Enter a name";
+"less_16" = "Name must not exceed 16 characters";
+"only_letters" = "The name must contain only letters and spaces";
+"already_exist" = "A pet with such a name already exists";
+"add_new_pet" = "Add a new pet";
+"history_of" = "%@ - history";
+"back" = "Back";
+"min" = "%.0f min";
+"frequent_activity" = "Performing activities too often!";
+"once_per" = "This activity can be performed only once in %d h.";
+"later" = "I'll try later";
+"overfulfilment" = "OVERFULFILMENT of ACTIVITY";
+"already_100" = "This activity has already been completed by 100%.";
+"start_activity" = "Start activity";
+"open_history" = "View history";
+"walk_is_over" = "WALK COMPLETED";
+"walk_save" = "You can end the walk and save the result, or continue the walk. The extra time will go into the games!";
+"complete" = "COMPLETE";
+"continue" = "CONTINUE";
+"activity_complete" = "ACTIVITY COMPLETED";
+"good_boy" = "You are a very caring host!";
+"save_and_exit" = "SAVE AND EXIT";
+"not_complete" = "ACTIVITY NOT COMPLETED YET!";
+"no_result" = "Activity has not been completed yet, the result will not be counted!";
+"exit" = "EXIT";
+"cancel" = "CANCEL";
+"pet_want_play" = "PET STILL WANTS TO PLAY!";
+"you_can_exit_but" = "Please note that the activity has not been completed completely yet, but you can still complete the activity now and the result will be saved.";
+"lets_create" = "Let's create a new pet!";
+"start" = "START";
+"trouble_has_happened" = "A disaster has happened!";
+"dead" = "Unfortunately, during your absence, they ran away from you for lack of care:\n%@";
+"get_better" = "I'll get better";
+"name" = "Name";
+"type" = "Type of animal:";
+"age" = "Age:";
+"age_count" = "%.1f years";
+"gender" = "Gender:";
+"male" = "Male";
+"female" = "Female";
+"schedule_of" = "%@ - schedule";
+"time_num_of" = "%@ - time %d\n(%@)";
+"add_time" = "Add time";
+"delete_time" = "Delete time";
+"save" = "Save";
+"hungry" = "I'm hungry!"; // "I'm hungry!"
+"for_a_walk" = "I want to go for a walk!"; //"I want to go for a walk!"
+"i_want_play" = "Let's play a game!"; // "Let's play a game!"
+"need_healing" = "I'm not feeling well, I need healing!"; // "I'm not feeling well, I need healing!"
+"need_cleaning" = "Please clean up after me!";
+"open" = "Open";
+"your_willingness" = "Your willingness to become the owner of this pet is evaluated in";
+"schedule" = "Schedule";
+"edit_schedule" = "Edit Schedule";
+"random_event" = "Random event";
+"cat" = "Cat";
+"dog" = "Dog";
+"fish" = "Fish";
+"hamster" = "Hamster";
+"bird" = "Bird";
+"games" = "Games";
+"walks" = "Walks";
+"health" = "Health";
+"feeding" = "Feeding";
+"сleaning" = "Cleaning";
+
+"choose_time" = "Choose a convenient time for each activity";
+"tutorial_title" = "TUTORIAL";
+"home_tutorial" = "Greetings! The main purpose of this application is to give you the opportunity to understand whether you are really ready to take responsibility for your pet. You can select a pet to interact with in the drop-down list at the top. You can also add new pets there. If the pet needs something, he will inform you about it in the form of a cloud with a message. You can click on this cloud to proceed to the activity.";
+"status_tutorial" = "Here you can see more detailed statistics for each activity. This is a VERY \"realistic\" simulator, so in order to perform any activity, you need to spend a real amount of time on it...";
+"profile_tutorial" = "The application takes into account not only the current state of the pet, but also the history of activities. Based on this, it gives out the percentage of your readiness for the establishment of a real pet.";
+"okey" = "OKEY";

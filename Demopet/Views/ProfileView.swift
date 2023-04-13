@@ -11,12 +11,13 @@ struct ProfileView: View {
     @ObservedObject var petViewModel: PetViewModel = PetViewModel.shared
     @State private var isEditingSchedule = false
     @State private var willingness: Int = 0
+    @State var showAllert = false
     
     var body: some View {
         ZStack(alignment: .top) {
             VStack() {
                 HStack(alignment: .bottom) {
-                    Text("Ваша готовность стать владельцем данного питомца оценивается в")
+                    Text("your_willingness")
                         .font(.title2)
                         .bold()
                         Spacer()
@@ -29,12 +30,12 @@ struct ProfileView: View {
                 }
                 
                 HStack {
-                    Text("Расписание")
+                    Text("schedule")
                         .font(.title2)
                         .bold()
                     Spacer()
                     NavigationLink(destination: AddPetView(step: 2)) {
-                        Text("Edit Schedule")
+                        Text("edit_schedule")
                             .foregroundColor(.white)
                             .padding(.vertical, 5)
                             .padding(.horizontal)
@@ -58,6 +59,27 @@ struct ProfileView: View {
             
             CustomDropDown()
                 .padding()
+            
+            if showAllert {
+                VStack {
+                    Spacer()
+                    CustomAlertView(
+                        title: NSLocalizedString("tutorial_title", comment: ""),
+                        message: NSLocalizedString("profile_tutorial", comment: ""),
+                        primaryButtonTitle: NSLocalizedString("okey", comment: ""),
+                        primaryButtonAction: {showAllert = false},
+                        secondaryButtonTitle: "",
+                        secondaryButtonAction: {}
+                    )
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+            }
+        }
+        .onAppear() {
+            PetViewModel.shared.updatePetStatusesOnAppLaunch()
+            showAllert = PetViewModel.shared.isProfileFirstLaunch()
         }
     }
 }
@@ -93,7 +115,7 @@ struct ActivityScheduleRowView: View {
             formatter.timeStyle = .short
             return schedule.map { formatter.string(from: $0) }.joined(separator: "\n")
         } else {
-            return "Случайное событие"
+            return NSLocalizedString("random_event", comment: "")
         }
     }
 }

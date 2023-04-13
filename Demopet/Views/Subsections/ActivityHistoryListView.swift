@@ -36,7 +36,8 @@ struct ActivityHistoryListView: View {
 
     var body: some View {
         VStack() {
-            Text("\(activityType.title()) - история")
+            
+            Text(String(format: NSLocalizedString("history_of", comment: ""), activityType.title()))
                 .font(.title)
                 .bold()
                 .padding(.top)
@@ -63,7 +64,7 @@ struct ActivityHistoryListView: View {
                     HStack {
                         Image(systemName: "arrow.left")
                             .foregroundColor(Color.white)
-                        Text("Назад")
+                        Text("back")
                             .foregroundColor(Color.white)
                     }
                     .padding(.horizontal, 20)
@@ -85,13 +86,16 @@ struct ActivityHistoryRowView: View {
             VStack(alignment: .leading) {
                 Text(activityHistory.date, style: .date)
                     .font(.headline)
-                Text(String(format: "%.0f мин", activityHistory.duration / 60))
+                Text(String(format: NSLocalizedString("min", comment: ""), activityHistory.duration / 60))
                     .font(.subheadline)
             }.foregroundColor(.white)
             Spacer()
             Image(activityHistory.activityType.iconName())
-                .font(.largeTitle)
+                .resizable()
+                .scaledToFit()
+                .frame(width: 35)
                 .foregroundColor(.white)
+                
         }
         .padding()
         .background(Color(hex: "2e2e2e"))

@@ -10,20 +10,53 @@ import Combine
 
 class PetViewModel: ObservableObject {
     static let shared = PetViewModel()
-    @Published private(set) var pets: [Pet] = [Pet.example1, Pet.example2]
-    @Published private(set) var currentPet: Pet = Pet.example1
+    @Published private(set) var pets: [Pet] = []
+    @Published private(set) var currentPet: Pet = Pet.example4
     @Published private(set) var deadPets: [Pet] = []
     
     private let petsKey = "petsKey"
     
     init() {
-        if let savedData = UserDefaults.standard.data(forKey: petsKey),
-           let decodedPets = try? JSONDecoder().decode([Pet].self, from: savedData) {
-            pets = decodedPets
-            currentPet = pets.count > 0 ? pets[0] : Pet.example1
-            return
+                if let savedData = UserDefaults.standard.data(forKey: petsKey),
+                   let decodedPets = try? JSONDecoder().decode([Pet].self, from: savedData) {
+                    pets = decodedPets
+                    currentPet = pets.count > 0 ? pets[0] : Pet.example1
+                    return
+                }
+                pets = []
+    }
+    
+    func isHomeFirstLaunch() -> Bool {
+        let defaults = UserDefaults.standard
+        let firstLaunchKey = "isHomeFirstLaunch"
+        if defaults.object(forKey: firstLaunchKey) == nil {
+            defaults.set(true, forKey: firstLaunchKey)
+            return true
+        } else {
+            return false
         }
-        pets = []
+    }
+    
+    func isStatusFirstLaunch() -> Bool {
+        let defaults = UserDefaults.standard
+        let firstLaunchKey = "isStatusFirstLaunch"
+        if defaults.object(forKey: firstLaunchKey) == nil {
+            defaults.set(true, forKey: firstLaunchKey)
+            return true
+        } else {
+            return false
+        }
+    }
+    
+    func isProfileFirstLaunch() -> Bool {
+        let defaults = UserDefaults.standard
+        let firstLaunchKey = "isProfileFirstLaunch"
+        if defaults.object(forKey: firstLaunchKey) == nil {
+            defaults.set(true, forKey: firstLaunchKey)
+            return true
+        } else {
+            return false
+        }
     }
     
     func schedulePetNotifications() {
@@ -95,6 +128,7 @@ class PetViewModel: ObservableObject {
     
     
     func saveActivity(activityType: ActivityType, elapsedTime: TimeInterval) {
+        guard currentPet.petStatus.value(for: activityType) < 100 else {return}
         let duration: Double = currentPet.animalType.getDuration(of: activityType)
         let count: Double = Double(currentPet.animalType.getActivitiesFrequency(of: activityType).count)
         
@@ -129,6 +163,15 @@ class PetViewModel: ObservableObject {
                 return
             }
             
+        case .сleaning:
+            if elapsedTime >= duration {
+                currentPet.petStatus.cleaning += 100/count
+                currentPet.petStatus.cleaning = min(currentPet.petStatus.cleaning, 100)
+                addActivityToHistory(activityType: activityType, elapsedTime: elapsedTime)
+            } else {
+                return
+            }
+            
         case .feeding:
             if elapsedTime >= duration {
                 currentPet.petStatus.satiety += 100/count
@@ -145,17 +188,7 @@ class PetViewModel: ObservableObject {
     }
     
     func getPercentage(of activity: ActivityType, for pet: Pet) -> Int {
-        let res: Double
-        switch activity {
-        case .game:
-            res = pet.petStatus.games
-        case .walk:
-            res = pet.petStatus.walks
-        case .healing:
-            res = pet.petStatus.health
-        case .feeding:
-            res = pet.petStatus.satiety
-        }
+        let res: Double = pet.petStatus.value(for: activity)
         return min(Int(res.rounded()), 100)
     }
     
@@ -190,16 +223,31 @@ class PetViewModel: ObservableObject {
         
         var expectedActivityCount = 0
         var completedActivities = 0
+        var totalTimeSpentOnGames = 0.0
         
         for activityType in activityTypes {
             let frequency = pet.animalType.getActivitiesFrequency(of: activityType)
             let historyItems = getPetActivityHistory(type: activityType).filter { calendar.isDate($0.date, inSameDayAs: currentDate) == false }
-            let completedActivitiesForType = historyItems.count
             
-            if frequency.unit == .day {
-                expectedActivityCount += frequency.count * daysSincePetCreation
-                completedActivities += min(completedActivitiesForType, frequency.count * daysSincePetCreation)
+            if activityType == .game {
+                for historyItem in historyItems {
+                    totalTimeSpentOnGames += historyItem.duration
+                }
+            } else {
+                let completedActivitiesForType = historyItems.count
+                
+                if frequency.unit == .day {
+                    expectedActivityCount += frequency.count * daysSincePetCreation
+                    completedActivities += min(completedActivitiesForType, frequency.count * daysSincePetCreation)
+                }
             }
+        }
+        
+        let requiredTimeForGames = Double(pet.animalType.getActivitiesFrequency(of: .game).count) * Double(daysSincePetCreation)
+        if requiredTimeForGames != 0 {
+            let gameCompletionRatio: Double = (totalTimeSpentOnGames / requiredTimeForGames) / pet.animalType.getDuration(of: .game)
+            completedActivities += Int(gameCompletionRatio * requiredTimeForGames)
+            expectedActivityCount += Int(requiredTimeForGames)
         }
         
         if expectedActivityCount == 0 {
@@ -222,20 +270,23 @@ class PetViewModel: ObservableObject {
             
             for (activity, schedule) in pets[index].schedule {
                 let (frequencyCount, frequencyUnit) = animalType.getActivitiesFrequency(of: activity)
-                let decrementValue = 100.0 / Double(frequencyCount)
+                let decrementValue = (100.0 / Double(frequencyCount))
                 
                 for scheduledTime in schedule {
                     let scheduledHour = calendar.component(.hour, from: scheduledTime)
                     let scheduledMinute = calendar.component(.minute, from: scheduledTime)
+                    var currentScheduledDate: Date = scheduledTime
                     
-                    var currentScheduledDate = calendar.date(bySettingHour: scheduledHour, minute: scheduledMinute, second: 0, of: lastAppLaunch)!
-                    
+                    if frequencyUnit == .day {
+                         currentScheduledDate = calendar.date(bySettingHour: scheduledHour, minute: scheduledMinute, second: 0, of: lastAppLaunch)!
+                    }
+                   
                     while currentScheduledDate < now && currentScheduledDate > lastAppLaunch {
-                        if pets[index].petStatus.value(for: activity) > 0 {
-                            pets[index].petStatus.decrementValue(for: activity, by: decrementValue)
-                        }
+                        pets[index].petStatus.decrementValue(for: activity, by: decrementValue)
                         if frequencyUnit == .day {
                             currentScheduledDate = calendar.date(byAdding: .day, value: 1, to: currentScheduledDate)!
+                        } else if frequencyUnit == .weekOfYear {
+                            currentScheduledDate = calendar.date(byAdding: .weekOfYear, value: 1, to: currentScheduledDate)!
                         } else if frequencyUnit == .month {
                             currentScheduledDate = calendar.date(byAdding: .month, value: 1, to: currentScheduledDate)!
                         } else if frequencyUnit == .year {
@@ -243,7 +294,7 @@ class PetViewModel: ObservableObject {
                         }
                     }
                 }
-                if pets[index].petStatus.value(for: activity) == 0 {
+                if pets[index].petStatus.realValue(for: activity) < -100 {
                     deathNums.append(index)
                     break
                 }
@@ -256,6 +307,23 @@ class PetViewModel: ObservableObject {
             pets.remove(at: index)
         }
         updateAllPets()
+    }
+    
+    func isCooldownOver(activityType: ActivityType) -> Bool {
+        let currentDate = Date()
+        let lastActivity = getPetActivityHistory(type: activityType).max { $0.date < $1.date }
+
+        guard let lastActivityDate = lastActivity?.date else {
+            return true
+        }
+
+        let cooldownDuration = currentPet.animalType.getCooldown(of: activityType)
+        let calendar = Calendar.current
+
+        let timeDifferenceComponents = calendar.dateComponents([.hour], from: lastActivityDate, to: currentDate)
+        let timeDifferenceInHours = timeDifferenceComponents.hour ?? 0
+
+        return timeDifferenceInHours >= cooldownDuration
     }
     
     func clearDeads() {
@@ -273,9 +341,9 @@ class PetViewModel: ObservableObject {
         if let index = pets.firstIndex(where: { $0.name == currentPet.name }) {
             pets[index] = currentPet
         }
-        if let encodedData = try? JSONEncoder().encode(pets) {
-            UserDefaults.standard.set(encodedData, forKey: petsKey)
-        }
+                if let encodedData = try? JSONEncoder().encode(pets) {
+                    UserDefaults.standard.set(encodedData, forKey: petsKey)
+                }
     }
     
     private func updateAllPets() {

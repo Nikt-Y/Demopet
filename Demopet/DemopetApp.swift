@@ -16,9 +16,7 @@ struct DemopetApp: App {
     var body: some Scene {
         WindowGroup {
             MainView()
-                .onAppear() {
-                    PetViewModel.shared.updatePetStatusesOnAppLaunch()
-                }
+                .preferredColorScheme(.light)
         }
     }
 }

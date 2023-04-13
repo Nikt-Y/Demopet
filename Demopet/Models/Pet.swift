@@ -10,15 +10,24 @@ import Foundation
 enum AnimalType: String, CaseIterable, Identifiable, Codable {
     case cat
     case dog
+    case fish
+    case hamster
+    case bird
     
     var id: String { self.rawValue }
     
     var title: String {
         switch self {
         case .cat:
-            return "Кот"
+            return NSLocalizedString("cat", comment: "")
         case .dog:
-            return "Собака"
+            return NSLocalizedString("dog", comment: "")
+        case .fish:
+            return NSLocalizedString("fish", comment: "")
+        case .hamster:
+            return NSLocalizedString("hamster", comment: "")
+        case .bird:
+            return NSLocalizedString("bird", comment: "")
         }
     }
     
@@ -28,6 +37,12 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
             return "dogFace"
         case .cat:
             return "catFace"
+        case .fish:
+            return "fishFace"
+        case .hamster:
+            return "hamsterFace"
+        case .bird:
+            return "birdFace"
         }
     }
     
@@ -37,15 +52,27 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
             return "dog"
         case .cat:
             return "cat"
+        case .fish:
+            return "fish"
+        case .hamster:
+            return "hamster"
+        case .bird:
+            return "bird"
         }
     }
     
     var maxAge: Double {
         switch self {
         case .dog:
-            return 13
+            return 15
         case .cat:
-            return 13
+            return 15
+        case .fish:
+            return 5
+        case .hamster:
+            return 3
+        case .bird:
+            return 15
         }
     }
     
@@ -54,13 +81,15 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
         case .dog:
             switch activity {
             case .feeding:
-                return (count: 3, unit: .day)
+                return (count: 2, unit: .day)
             case  .walk:
                 return (count: 2, unit: .day)
             case .game:
                 return (count: 1, unit: .day)
             case  .healing:
                 return (count: 1, unit: .month)
+            case .сleaning:
+                return (count: 1, unit: .weekOfYear)
             }
         case .cat:
             switch activity {
@@ -72,6 +101,47 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
                 return (count: 1, unit: .day)
             case  .healing:
                 return (count: 1, unit: .month)
+            case .сleaning:
+                return (count: 1, unit: .weekOfYear)
+            }
+        case .fish:
+            switch activity {
+            case .feeding:
+                return (count: 1, unit: .day)
+            case  .walk:
+                return (count: 0, unit: .day)
+            case .game:
+                return (count: 0, unit: .day)
+            case  .healing:
+                return (count: 0, unit: .month)
+            case .сleaning:
+                return (count: 1, unit: .weekOfYear)
+            }
+        case .hamster:
+            switch activity {
+            case .feeding:
+                return (count: 1, unit: .day)
+            case  .walk:
+                return (count: 0, unit: .day)
+            case .game:
+                return (count: 1, unit: .day)
+            case  .healing:
+                return (count: 1, unit: .month)
+            case .сleaning:
+                return (count: 1, unit: .weekOfYear)
+            }
+        case .bird:
+            switch activity {
+            case .feeding:
+                return (count: 1, unit: .day)
+            case  .walk:
+                return (count: 0, unit: .day)
+            case .game:
+                return (count: 1, unit: .day)
+            case  .healing:
+                return (count: 1, unit: .month)
+            case .сleaning:
+                return (count: 1, unit: .day)
             }
         }
     }
@@ -81,24 +151,137 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
         case .cat:
             switch activity {
             case .feeding:
-                return 300
+                return 240
             case .game:
                 return 1800
             case .walk:
                 return 0
             case .healing:
-                return 3600
+                return 2700
+            case .сleaning:
+                return 600
             }
         case .dog:
             switch activity {
             case .feeding:
-                return 300
+                return 240
             case .game:
-                return 3600
-            case .walk:
                 return 1800
+            case .walk:
+                return 2100
             case .healing:
-                return 3600
+                return 2700
+            case .сleaning:
+                return 300
+            }
+        case .fish:
+            switch activity {
+            case .feeding:
+                return 60
+            case .game:
+                return 0
+            case .walk:
+                return 0
+            case .healing:
+                return 0
+            case .сleaning:
+                return 420
+            }
+        case .hamster:
+            switch activity {
+            case .feeding:
+                return 180
+            case .game:
+                return 1200
+            case .walk:
+                return 0
+            case .healing:
+                return 1800
+            case .сleaning:
+                return 300
+            }
+        case .bird:
+            switch activity {
+            case .feeding:
+                return 180
+            case .game:
+                return 1800
+            case .walk:
+                return 0
+            case .healing:
+                return 2700
+            case .сleaning:
+                return 180
+            }
+        }
+    }
+    
+    func getCooldown(of activity: ActivityType) -> Int {
+        switch self {
+        case .cat:
+            switch activity {
+            case .feeding:
+                return 2
+            case .game:
+                return 0
+            case .walk:
+                return 5
+            case .healing:
+                return 24
+            case .сleaning:
+                return 72
+            }
+        case .dog:
+            switch activity {
+            case .feeding:
+                return 2
+            case .game:
+                return 0
+            case .walk:
+                return 6
+            case .healing:
+                return 24
+            case .сleaning:
+                return 72
+            }
+        case .fish:
+            switch activity {
+            case .feeding:
+                return 12
+            case .game:
+                return 0
+            case .walk:
+                return 5
+            case .healing:
+                return 24
+            case .сleaning:
+                return 72
+            }
+        case .hamster:
+            switch activity {
+            case .feeding:
+                return 12
+            case .game:
+                return 0
+            case .walk:
+                return 6
+            case .healing:
+                return 24
+            case .сleaning:
+                return 72
+            }
+        case .bird:
+            switch activity {
+            case .feeding:
+                return 12
+            case .game:
+                return 0
+            case .walk:
+                return 6
+            case .healing:
+                return 24
+            case .сleaning:
+                return 6
             }
         }
     }
@@ -116,7 +299,7 @@ struct Pet: Codable {
 }
 
 extension Pet {
-    static let example1 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "Fluffy", age: 2, male: true, animalType: .dog, petStatus: PetStatus(), activityHistory: [
+    static let example1 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "Fluffy", age: 2, male: true, animalType: .dog, petStatus: PetStatus(satiety: 100, health: 100, walks: 100, games: 100), activityHistory: [
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 1800, activityType: .walk),
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .walk),
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .game),
@@ -128,5 +311,10 @@ extension Pet {
     static let example2 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "adsaads", age: 2, male: true, animalType: .cat, petStatus: PetStatus(satiety: 100, health: 100, walks: 100, games: 100), activityHistory: [
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
     ], schedule: [.healing: [Date()], .feeding: [Date(), Date(), Date()], .game: [Date(), Date(), Date()]])
+    
+    static let example3 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "dog", age: 2, male: true, animalType: .dog, petStatus: PetStatus(satiety: 0, health: 0, walks: 0, games: 0), activityHistory: [] , schedule: [.walk:[Date(), Date(), Date()], .healing: [Date(), Date(), Date()], .feeding: [Date(), Date(), Date()], .game:[Date(), Date(), Date()]])
+    
+    static let example4 = Pet(date: Date(), name: "", age: 2, male: true, animalType: .cat, petStatus: PetStatus(), activityHistory: [
+    ], schedule: [:])
 }
 

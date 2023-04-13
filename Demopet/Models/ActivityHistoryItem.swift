@@ -15,17 +15,20 @@ enum ActivityType: String, CaseIterable, Identifiable, Codable {
     case walk
     case healing
     case feeding
-    
+    case сleaning
+
     func title() -> String {
         switch self {
         case .game:
-            return "Игры"
+            return NSLocalizedString("games", comment: "")
         case .walk:
-            return "Прогулки"
+            return NSLocalizedString("walks", comment: "")
         case .healing:
-            return "Здоровье"
+            return NSLocalizedString("health", comment: "")
         case .feeding:
-            return "Питание"
+            return NSLocalizedString("feeding", comment: "")
+        case .сleaning:
+            return NSLocalizedString("сleaning", comment: "")
         }
     }
     
@@ -39,19 +42,8 @@ enum ActivityType: String, CaseIterable, Identifiable, Codable {
             return "health"
         case .feeding:
             return "food"
-        }
-    }
-    
-    func color() -> Color {
-        switch self {
-        case .game:
-            return Color.blue
-        case .walk:
-            return Color.green
-        case .healing:
-            return Color.red
-        case .feeding:
-            return Color.orange
+        case .сleaning:
+            return "cleaning"
         }
     }
 }

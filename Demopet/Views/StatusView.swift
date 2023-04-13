@@ -9,6 +9,7 @@ import SwiftUI
 
 struct StatusView: View {
     @ObservedObject var petViewModel: PetViewModel = PetViewModel.shared
+    @State var showAllert = false
     
     fileprivate func StatusItem(activityType: ActivityType) -> some View {
         VStack {
@@ -17,7 +18,7 @@ struct StatusView: View {
                 .padding(.top, 4)
             Text(activityType.title()).foregroundColor(.white).padding(.vertical,5)
             NavigationLink(destination: ActivityInfoView(activityType: activityType)) {
-                Text("Открыть")
+                Text("open")
                     .padding(.vertical, 5)
                     .padding(.horizontal, 20)
                     .foregroundColor(Color.black)
@@ -79,6 +80,27 @@ struct StatusView: View {
             .padding(.top, 100)
             CustomDropDown()
                 .padding()
+            
+            if showAllert {
+                VStack {
+                    Spacer()
+                    CustomAlertView(
+                        title: NSLocalizedString("tutorial_title", comment: ""),
+                        message: NSLocalizedString("status_tutorial", comment: ""),
+                        primaryButtonTitle: NSLocalizedString("okey", comment: ""),
+                        primaryButtonAction: {showAllert = false},
+                        secondaryButtonTitle: "",
+                        secondaryButtonAction: {}
+                    )
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+            }
+        }
+        .onAppear() {
+            PetViewModel.shared.updatePetStatusesOnAppLaunch()
+            showAllert = PetViewModel.shared.isStatusFirstLaunch()
         }
     }
 }

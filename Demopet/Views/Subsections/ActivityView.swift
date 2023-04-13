@@ -74,7 +74,7 @@ struct ActivityView: View {
                 Button(action: {
                     saveTap()
                 }) {
-                    Text("Сохранить")
+                    Text("save")
                         .foregroundColor(Color(hex: "2E2E2E"))
                         .padding(.horizontal, 50)
                         .padding(.vertical, 10)
@@ -109,7 +109,7 @@ struct ActivityView: View {
                     HStack {
                         Image(systemName: "arrow.left")
                             .foregroundColor(Color.black)
-                        Text("Back")
+                        Text("Назад")
                             .foregroundColor(Color.black)
                     }
                     .padding(.horizontal, 20)
@@ -123,7 +123,6 @@ struct ActivityView: View {
         .onAppear(){
             duration = petViewModel.currentPet.animalType.getDuration(of: activityType)
             //            startTimer()
-            updateAlertConfig(title: "АКТИВНОСТЬ ЕЩЕ НЕ ВЫПОЛНЕНА!", message: "Активность еще не выполнена, результат не будет засчитан!", primaryTitle: "ВЫЙТИ", primaryAction: {dismiss()}, secondaryTitle: "ОТМЕНА", secondaryAction: {showAlert = false})
         }
     }
     
@@ -142,24 +141,23 @@ struct ActivityView: View {
                 stopTimer()
                 if activityType == .walk {
                     updateAlertConfig(
-                        title: "ПРОГУЛКА ВЫПОЛНЕНА",
-                        message: "Вы можете завершить прогулку и сохранить результат, либо же продолжить прогулку. Дополнительное время пойдет в зачет игр!",
-                        primaryTitle: "ЗАВЕРШИТЬ",
+                        title: NSLocalizedString("walk_is_over", comment: ""),
+                        message: NSLocalizedString("walk_save", comment: ""),
+                        primaryTitle: NSLocalizedString("complete", comment: ""),
                         primaryAction: {
                             petViewModel.saveActivity(activityType: activityType, elapsedTime: elapsedTime)
                             dismiss()
                         },
-                        secondaryTitle: "ПРОДОЛЖИТЬ",
+                        secondaryTitle: NSLocalizedString("continue", comment: ""),
                         secondaryAction: {
                             overTime = true
-                            petViewModel.saveActivity(activityType: activityType, elapsedTime: elapsedTime)
                             dismiss()
                         })
                 } else {
                     updateAlertConfig(
-                        title: "АКТИВНОСТЬ ВЫПОЛНЕНА",
-                        message: "Вы очень заботливый хозяин!",
-                        primaryTitle: "СОХРАНИТЬ И ВЫЙТИ",
+                        title: NSLocalizedString("activity_complete", comment: ""),
+                        message: NSLocalizedString("good_boy", comment: ""),
+                        primaryTitle: NSLocalizedString("save_and_exit", comment: ""),
                         primaryAction: {
                             petViewModel.saveActivity(activityType: activityType, elapsedTime: elapsedTime)
                             dismiss()
@@ -191,9 +189,16 @@ struct ActivityView: View {
     }
     
     private func saveTap() {
-        if elapsedTime < duration {
+        if activityType != .game && elapsedTime < duration {
+            updateAlertConfig(title: NSLocalizedString("not_complete", comment: ""), message: NSLocalizedString("no_result", comment: ""), primaryTitle: NSLocalizedString("exit", comment: "") , primaryAction: {dismiss()}, secondaryTitle: NSLocalizedString("cancel", comment: ""), secondaryAction: {showAlert = false})
             showAlert = true
             return
+        }
+        if activityType == .game {
+            updateAlertConfig(title: NSLocalizedString("pet_want_play", comment: ""), message: NSLocalizedString("you_can_exit_but", comment: ""), primaryTitle: NSLocalizedString("save_and_exit", comment: ""), primaryAction: {
+                petViewModel.saveActivity(activityType: activityType, elapsedTime: elapsedTime)
+                dismiss()
+            }, secondaryTitle: NSLocalizedString("cancel", comment: ""), secondaryAction: {showAlert = false})
         }
         petViewModel.saveActivity(activityType: activityType, elapsedTime: elapsedTime)
         dismiss()

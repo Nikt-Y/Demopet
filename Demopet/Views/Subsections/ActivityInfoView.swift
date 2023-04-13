@@ -17,53 +17,106 @@ struct ActivityInfoView: View {
     @State private var selectedWeek = 0
     @State private var startDate = Calendar.current.date(byAdding: .day, value: -6, to: Date())!
     @StateObject var viewModel = ActivityInfoViewModel()
+    @State var showActivity = false
+    @State var showAlert = false
+    @State private var alertConfig: (title: String, message: String, primaryTitle: String,  primaryAction: () -> Void, secondaryTitle: String, secondaryAction: () -> Void)?
     
     var body: some View {
-        ScrollView(showsIndicators: false) {
-            VStack(spacing: 20) {
-                darkGrayRectangle
-                
-                NavigationLink(destination: ActivityView(activityType: activityType)) {
-                    Text("Начать активность")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.blue)
-                        .cornerRadius(10)
-                }
-                
-                NavigationLink(destination: ActivityHistoryListView(activityType: activityType)) {
-                    Text("Посмотреть историю")
-                        .foregroundColor(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color(hex: "2E2E2E"))
-                        .cornerRadius(10)
-                }
-                
-                BarGraph(example: viewModel.getActivityHistory(of: activityType, week: selectedWeek), domain: viewModel.getChartYScale(activityType: activityType))
-                    .frame(height: 300)
-                    .padding(.horizontal, -15)
-                
-                HStack {
-                    Button(action: {
-                        selectedWeek -= 1
-                    }) {
-                        Image(systemName: "arrow.left")
-                    }.foregroundColor(.black)
-                    
-                    Text(viewModel.getWeekText(week: selectedWeek))
+        ZStack {
+            ScrollView(showsIndicators: false) {
+                VStack(spacing: 20) {
+                    darkGrayRectangle
                     
                     Button(action: {
-                        if selectedWeek < 0 {
-                            selectedWeek += 1
+                        if petViewModel.currentPet.petStatus.value(for: activityType) < 100 {
+                            if petViewModel.isCooldownOver(activityType: activityType) {
+                                showActivity = true
+                            } else {
+                                updateAlertConfig(
+                                    title: NSLocalizedString("frequent_activity", comment: ""),
+                                    message: String(format: NSLocalizedString("once_per", comment: ""), petViewModel.currentPet.animalType.getCooldown(of: activityType)),
+                                    primaryTitle: NSLocalizedString("later", comment: ""),
+                                    primaryAction: {
+                                        showAlert.toggle()
+                                    },
+                                    secondaryTitle: "",
+                                    secondaryAction: {
+                                    })
+                                showAlert.toggle()
+                            }
+                        } else {
+                            updateAlertConfig(
+                                title: NSLocalizedString("overfulfilment", comment: ""),
+                                message: NSLocalizedString("already_100", comment: ""),
+                                primaryTitle: NSLocalizedString("later", comment: ""),
+                                primaryAction: {
+                                    showAlert.toggle()
+                                },
+                                secondaryTitle: "",
+                                secondaryAction: {
+                                })
+                            showAlert.toggle()
                         }
-                    }) {
-                        Image(systemName: "arrow.right")
-                    }.foregroundColor(.black)
+                    }, label: {
+                        Text("start_activity")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color.blue)
+                            .cornerRadius(10)
+                    })
+                    .navigationDestination(isPresented: $showActivity, destination: {ActivityView(activityType: activityType)})
+                    
+                    NavigationLink(destination: ActivityHistoryListView(activityType: activityType)) {
+                        Text("open_history")
+                            .foregroundColor(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(Color(hex: "2E2E2E"))
+                            .cornerRadius(10)
+                    }
+                    
+                    BarGraph(example: viewModel.getActivityHistory(of: activityType, week: selectedWeek), domain: viewModel.getChartYScale(activityType: activityType))
+                        .frame(height: 300)
+                        .padding(.horizontal, -15)
+                    
+                    HStack {
+                        Button(action: {
+                            selectedWeek -= 1
+                        }) {
+                            Image(systemName: "arrow.left")
+                        }.foregroundColor(.black)
+                        
+                        Text(viewModel.getWeekText(week: selectedWeek))
+                        
+                        Button(action: {
+                            if selectedWeek < 0 {
+                                selectedWeek += 1
+                            }
+                        }) {
+                            Image(systemName: "arrow.right")
+                        }.foregroundColor(.black)
+                    }
                 }
+                .padding()
             }
-            .padding()
+            
+            if showAlert {
+                VStack {
+                    Spacer()
+                    CustomAlertView(
+                        title: alertConfig?.title ?? "",
+                        message: alertConfig?.message ?? "",
+                        primaryButtonTitle: alertConfig?.primaryTitle ?? "",
+                        primaryButtonAction: alertConfig?.primaryAction ?? {},
+                        secondaryButtonTitle: alertConfig?.secondaryTitle ?? "",
+                        secondaryButtonAction: alertConfig?.secondaryAction ?? {}
+                    )
+                    Spacer()
+                }
+                .padding(.horizontal)
+                .background(Color.black.opacity(0.4).edgesIgnoringSafeArea(.all))
+            }
         }
         .background(Color.white.edgesIgnoringSafeArea(.all))
         .toolbar {
@@ -74,7 +127,7 @@ struct ActivityInfoView: View {
                     HStack {
                         Image(systemName: "arrow.left")
                             .foregroundColor(Color.white)
-                        Text("Назад")
+                        Text("back")
                             .foregroundColor(Color.white)
                     }
                     .padding(.horizontal, 20)
@@ -85,6 +138,15 @@ struct ActivityInfoView: View {
             }
         }
         .navigationBarBackButtonHidden(true)
+    }
+    
+    private func updateAlertConfig(title: String, message: String, primaryTitle: String, primaryAction: @escaping () -> Void, secondaryTitle: String, secondaryAction: @escaping () -> Void) {
+        alertConfig = (title: title,
+                       message: message,
+                       primaryTitle: primaryTitle,
+                       primaryAction: primaryAction,
+                       secondaryTitle: secondaryTitle,
+                       secondaryAction: secondaryAction)
     }
     
     var darkGrayRectangle: some View {
@@ -191,7 +253,7 @@ struct BarGraph: View {
         .chartYAxis {
             AxisMarks(values: .automatic) { _ in
                 AxisGridLine()
-                    
+                
             }
         }
     }

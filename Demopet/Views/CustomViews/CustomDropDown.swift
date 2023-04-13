@@ -37,7 +37,7 @@ struct CustomDropDown: View {
                     .padding()
                 })
                 if showDropDown {
-                    ForEach(petViewModel.pets.indices) { index in
+                    ForEach(petViewModel.pets.indices, id: \.self) { index in
                         let pet = petViewModel.pets[index]
                         if pet.name != petViewModel.currentPet.name {
                             Button(action: {
@@ -47,7 +47,7 @@ struct CustomDropDown: View {
                                 }
                             }, label: {
                                 HStack {
-                                    Image( petViewModel.currentPet.animalType.iconName)
+                                    Image(pet.animalType.iconName)
                                         .resizable()
                                         .scaledToFit()
                                         .frame(width: 30, height: 30)
@@ -65,7 +65,7 @@ struct CustomDropDown: View {
                     HStack {
                         Spacer()
                         NavigationLink(destination: AddPetView(step: 0).onAppear{showDropDown = false}) {
-                            Text("Add new pet")
+                            Text("add_new_pet")
                                 .foregroundColor(.white)
                                 .padding(.vertical, 4)
                                 .padding(.horizontal)
