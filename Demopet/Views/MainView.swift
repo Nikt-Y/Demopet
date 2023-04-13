@@ -19,12 +19,11 @@ struct CustomTabView: View {
                 if selection == 0 {
                     HomeView()
                         .transition(.move(edge: .leading).combined(with: .opacity))
-                        .onAppear() {
-                            print("sfdsf")
-                        }
+                        
                 } else if selection == 1 {
                     StatusView()
                         .transition(.move(edge: previousSelection > 1 ? .leading : .trailing).combined(with: .opacity))
+                        
                 } else {
                     ProfileView()
                         .transition(.move(edge: .trailing).combined(with: .opacity))

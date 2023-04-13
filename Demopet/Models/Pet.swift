@@ -16,9 +16,9 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
     var title: String {
         switch self {
         case .cat:
-            return "Cat"
+            return "Кот"
         case .dog:
-            return "Dog"
+            return "Собака"
         }
     }
     
@@ -81,7 +81,7 @@ enum AnimalType: String, CaseIterable, Identifiable, Codable {
         case .cat:
             switch activity {
             case .feeding:
-                return 10
+                return 300
             case .game:
                 return 1800
             case .walk:
@@ -120,13 +120,13 @@ extension Pet {
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: 0, to: Date())!, duration: 1800, activityType: .walk),
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .walk),
         ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .game),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .feeding),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .feeding),
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
     ] , schedule: [.walk:[Date(), Date(), Date()], .healing: [Date(), Date(), Date()], .feeding: [Date(), Date(), Date()], .game:[Date(), Date(), Date()]])
     
-    static let example2 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "adsaads", age: 2, male: true, animalType: .cat, petStatus: PetStatus(satiety: 33, health: 33, walks: 100, games: 33), activityHistory: [
-        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 1800, activityType: .feeding),
-    ], schedule: [.healing: [Date(), Date(), Date()], .feeding: [Date(), Date(), Date()], .game:[Date(), Date(), Date()]])
+    static let example2 = Pet(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, name: "adsaads", age: 2, male: true, animalType: .cat, petStatus: PetStatus(satiety: 100, health: 100, walks: 100, games: 100), activityHistory: [
+        ActivityHistoryItem(date: Calendar.current.date(byAdding: .day, value: -1, to: Date())!, duration: 300, activityType: .feeding),
+    ], schedule: [.healing: [Date()], .feeding: [Date(), Date(), Date()], .game: [Date(), Date(), Date()]])
 }
 

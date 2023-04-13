@@ -21,8 +21,8 @@ class NotificationManager {
     
     func scheduleNotification(pet: Pet, activity: ActivityType, time: Date, repeatFrequency: Calendar.Component) {
         let content = UNMutableNotificationContent()
-        content.title = "\(pet.name) needs \(activity.title())"
-        content.body = "It's time to \(activity.title().lowercased()) with \(pet.name)."
+        content.title = "\(pet.name) требует \(activity.title())"
+        content.body = "Нужно выполнить \(activity.title().lowercased()) для \(pet.name)."
         content.sound = .default
 
         let calendar = Calendar.current

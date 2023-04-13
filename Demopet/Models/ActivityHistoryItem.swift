@@ -19,13 +19,13 @@ enum ActivityType: String, CaseIterable, Identifiable, Codable {
     func title() -> String {
         switch self {
         case .game:
-            return "Game"
+            return "Игры"
         case .walk:
-            return "Walk"
+            return "Прогулки"
         case .healing:
-            return "Healing"
+            return "Здоровье"
         case .feeding:
-            return "Feeding"
+            return "Питание"
         }
     }
     

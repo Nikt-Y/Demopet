@@ -10,7 +10,7 @@ import Combine
 
 class PetViewModel: ObservableObject {
     static let shared = PetViewModel()
-    @Published private(set) var pets: [Pet] = []
+    @Published private(set) var pets: [Pet] = [Pet.example1, Pet.example2]
     @Published private(set) var currentPet: Pet = Pet.example1
     @Published private(set) var deadPets: [Pet] = []
     

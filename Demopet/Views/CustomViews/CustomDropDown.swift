@@ -48,6 +48,9 @@ struct CustomDropDown: View {
                             }, label: {
                                 HStack {
                                     Image( petViewModel.currentPet.animalType.iconName)
+                                        .resizable()
+                                        .scaledToFit()
+                                        .frame(width: 30, height: 30)
                                         .foregroundColor(.white)
                                     Text(pet.name)
                                     Spacer()

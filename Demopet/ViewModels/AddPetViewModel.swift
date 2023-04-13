@@ -9,7 +9,7 @@ import Foundation
 import SwiftUI
 
 class AddPetViewModel: ObservableObject {    
-    @Published public var name = "Barsik"
+    @Published public var name = ""
     @Published public var selectedPetType: AnimalType = .cat
     @Published public var petAge: Double = 0.5
     @Published public var isMale: Bool = true

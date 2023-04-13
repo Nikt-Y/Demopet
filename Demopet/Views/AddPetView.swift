@@ -30,9 +30,9 @@ struct AddPetView: View {
                 
                 if step == 0 {
                     CustomAlertView(
-                        title: "It's time to get a new pet",
+                        title: "Давайте создадим нового питомца!",
                         message: "",
-                        primaryButtonTitle: "Start",
+                        primaryButtonTitle: "НАЧАТЬ",
                         primaryButtonAction: {
                             step = 1
                         },
@@ -79,14 +79,14 @@ struct AddPetView: View {
     
     private func createNewPetView() -> some View {
         VStack {
-            TextField("Name", text: $viewModel.name)
+            TextField("Кличка", text: $viewModel.name)
                 .padding(9)
                 .background(Color.gray.opacity(0.1))
                 .cornerRadius(8)
                 .padding(.bottom)
             
             HStack {
-                Text("Pet type:").padding(.trailing, 10)
+                Text("Вид животного:").padding(.trailing, 10)
                 Spacer()
                 Menu {
                     Picker("fsdf", selection: $viewModel.selectedPetType) {
@@ -109,7 +109,7 @@ struct AddPetView: View {
             
             
             HStack {
-                Text("Age:")
+                Text("Возраст:")
                 Spacer()
                 Stepper(value: $viewModel.petAge, in: 0.5...5, step: 0.5) {
                     Text("\(viewModel.petAge, specifier: "%.1f") years")
@@ -118,11 +118,11 @@ struct AddPetView: View {
             }.padding(.bottom)
             
             HStack {
-                Text("Gender:")
+                Text("Пол:")
                 Spacer()
                 Picker("Gender", selection: $viewModel.isMale) {
-                    Text("Male").tag(true)
-                    Text("Female").tag(false)
+                    Text("Муж.").tag(true)
+                    Text("Жен.").tag(false)
                 }
                 .pickerStyle(SegmentedPickerStyle())
                 
@@ -132,7 +132,7 @@ struct AddPetView: View {
                 step = 2
                 viewModel.saveNewPet()
             }) {
-                Text("Continue")
+                Text("Продолжить")
                     .foregroundColor(.white)
                     .padding()
                     .background(Color(hex: "2e2e2e"))
@@ -149,9 +149,9 @@ struct AddPetView: View {
         VStack {
             ForEach(ActivityType.allCases) { activity in
                 if let frequency = viewModel.schedule[activity] {
-                    Text("\(activity.title()) Times")
+                    Text("\(activity.title()) - расписание")
                     ForEach(frequency.indices, id: \.self) { index in
-                        DatePicker("\(activity.title()) Time \(index+1)", selection: Binding(
+                        DatePicker("\(activity.title()) - время \(index+1)", selection: Binding(
                             get: { viewModel.schedule[activity]?[index] ?? Date() },
                             set: { newValue in
                                 viewModel.schedule[activity]?[index] = newValue
@@ -162,7 +162,7 @@ struct AddPetView: View {
                         Button(action: {
                             viewModel.addTime(for: activity)
                         }) {
-                            Text("Add Time")
+                            Text("Добавить время")
                                 .padding(.vertical,5)
                                 .padding(.horizontal)
                                 .background(Color(hex: "2e2e2e"))
@@ -174,7 +174,7 @@ struct AddPetView: View {
                             Button(action: {
                                 viewModel.deleteTime(for: activity)
                             }) {
-                                Text("Delete Time")
+                                Text("Удалить время")
                                     .padding(.vertical,5)
                                     .padding(.horizontal)
                                     .background(Color.red)
@@ -189,7 +189,7 @@ struct AddPetView: View {
                 viewModel.saveNewSchedule()
                 presentationMode.wrappedValue.dismiss()
             }) {
-                Text("Save")
+                Text("Сохранить")
                     .foregroundColor(.white)
                     .padding()
                     .background(Color(hex: "2e2e2e"))
@@ -205,6 +205,6 @@ struct AddPetView: View {
 
 struct AddPetView_Previews: PreviewProvider {
     static var previews: some View {
-        AddPetView(step: 2)
+        AddPetView(step: 0)
     }
 }

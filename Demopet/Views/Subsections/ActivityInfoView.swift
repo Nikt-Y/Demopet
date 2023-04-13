@@ -24,7 +24,7 @@ struct ActivityInfoView: View {
                 darkGrayRectangle
                 
                 NavigationLink(destination: ActivityView(activityType: activityType)) {
-                    Text("Start activity")
+                    Text("Начать активность")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -33,7 +33,7 @@ struct ActivityInfoView: View {
                 }
                 
                 NavigationLink(destination: ActivityHistoryListView(activityType: activityType)) {
-                    Text("View history")
+                    Text("Посмотреть историю")
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
                         .padding()
@@ -73,13 +73,13 @@ struct ActivityInfoView: View {
                 }) {
                     HStack {
                         Image(systemName: "arrow.left")
-                            .foregroundColor(Color.black)
-                        Text("Back")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.white)
+                        Text("Назад")
+                            .foregroundColor(Color.white)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
-                    .background(Color.white)
+                    .background(Color(hex: "2e2e2e"))
                     .cornerRadius(10)
                 }
             }
@@ -159,7 +159,7 @@ struct LineGraph: View {
                     .font(.system(size: 14))
             }
         }
-        .chartYScale(domain: 0...3600)
+        .chartYScale(domain: domain)
     }
 }
 
@@ -187,7 +187,7 @@ struct BarGraph: View {
                     .font(.system(size: 15))
             }
         }
-        .chartYScale(domain: 0...3600)
+        .chartYScale(domain: domain)
         .chartYAxis {
             AxisMarks(values: .automatic) { _ in
                 AxisGridLine()
@@ -199,6 +199,6 @@ struct BarGraph: View {
 
 struct ActivityInfoView_Previews: PreviewProvider {
     static var previews: some View {
-        ActivityInfoView(activityType: .walk)
+        ActivityInfoView(activityType: .feeding)
     }
 }

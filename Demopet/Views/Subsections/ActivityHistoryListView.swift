@@ -16,13 +16,13 @@ struct ActivityHistoryListView: View {
         let history = petViewModel.getPetActivityHistory(type: activityType)
         let grouped = Dictionary(grouping: history, by: { item in
             let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM yyyy"
+            formatter.dateFormat = "MMM yyyy"
             return formatter.string(from: item.date)
         })
 
         let sortedKeys = grouped.keys.sorted { key1, key2 in
             let formatter = DateFormatter()
-            formatter.dateFormat = "MMMM yyyy"
+            formatter.dateFormat = "MMM yyyy"
             if let date1 = formatter.date(from: key1), let date2 = formatter.date(from: key2) {
                 return date1 > date2
             }
@@ -36,7 +36,7 @@ struct ActivityHistoryListView: View {
 
     var body: some View {
         VStack() {
-            Text("\(activityType.title()) History")
+            Text("\(activityType.title()) - история")
                 .font(.title)
                 .bold()
                 .padding(.top)
@@ -62,13 +62,13 @@ struct ActivityHistoryListView: View {
                 }) {
                     HStack {
                         Image(systemName: "arrow.left")
-                            .foregroundColor(Color.black)
-                        Text("Back")
-                            .foregroundColor(Color.black)
+                            .foregroundColor(Color.white)
+                        Text("Назад")
+                            .foregroundColor(Color.white)
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 10)
-                    .background(Color.white)
+                    .background(Color(hex: "2e2e2e"))
                     .cornerRadius(10)
                 }
             }
@@ -85,7 +85,7 @@ struct ActivityHistoryRowView: View {
             VStack(alignment: .leading) {
                 Text(activityHistory.date, style: .date)
                     .font(.headline)
-                Text(String(format: "%.2f minutes", activityHistory.duration / 60))
+                Text(String(format: "%.0f мин", activityHistory.duration / 60))
                     .font(.subheadline)
             }.foregroundColor(.white)
             Spacer()
