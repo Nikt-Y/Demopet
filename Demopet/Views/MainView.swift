@@ -103,14 +103,14 @@ struct MainView: View {
     var body: some View {
         NavigationStack {
             ZStack {
-                if petViewModel.pets.count == 0 {
-                    NavigationLink("", destination: AddPetView(step: 0), isActive: $showAddPetView)
-                        .onAppear {
+                CustomTabView()
+                    .navigationDestination(isPresented: $showAddPetView, destination: {AddPetView(step: 0)})
+                    .onAppear() {
+                        if petViewModel.pets.count == 0 {
                             showAddPetView = true
                         }
-                } else {
-                    CustomTabView()
-                }
+                    }
+                
                 
                 if !petViewModel.deadPets.isEmpty {
                     VStack {
@@ -119,7 +119,10 @@ struct MainView: View {
                             title: NSLocalizedString("trouble_has_happened", comment: ""),
                             message: String(format: NSLocalizedString("deads", comment: ""), petViewModel.deadPets.map { $0.name }.joined(separator: ", ")),
                             primaryButtonTitle: NSLocalizedString("get_better", comment: ""),
-                            primaryButtonAction: {petViewModel.clearDeads()},
+                            primaryButtonAction: {
+                                petViewModel.clearDeads()
+                                showAddPetView = true
+                            },
                             secondaryButtonTitle: "",
                             secondaryButtonAction: {}
                         )

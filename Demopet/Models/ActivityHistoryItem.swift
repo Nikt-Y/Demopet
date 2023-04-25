@@ -49,7 +49,7 @@ enum ActivityType: String, CaseIterable, Identifiable, Codable {
 }
 
 struct ActivityHistoryItem: Identifiable, Codable {
-    let id = UUID()
+    var id = UUID()
     var date: Date
     var duration: TimeInterval
     var activityType: ActivityType

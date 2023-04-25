@@ -167,7 +167,7 @@ struct ActivityInfoView: View {
     }
     
     func CircularProgressBar(activityType: ActivityType) -> some View {
-        var percentage = petViewModel.getPercentage(of: activityType, for: petViewModel.currentPet)
+        let percentage = petViewModel.getPercentage(of: activityType, for: petViewModel.currentPet)
         return ZStack {
             Circle()
                 .stroke(Color.white, lineWidth: 10)

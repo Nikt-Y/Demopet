@@ -26,33 +26,42 @@ class PetViewModel: ObservableObject {
                 pets = []
     }
     
-    func isHomeFirstLaunch() -> Bool {
+    @discardableResult
+    func isHomeFirstLaunch(set firstLaunch: Bool = true) -> Bool {
         let defaults = UserDefaults.standard
         let firstLaunchKey = "isHomeFirstLaunch"
         if defaults.object(forKey: firstLaunchKey) == nil {
-            defaults.set(true, forKey: firstLaunchKey)
+            if !firstLaunch {
+                defaults.set(true, forKey: firstLaunchKey)
+            }
             return true
         } else {
             return false
         }
     }
     
-    func isStatusFirstLaunch() -> Bool {
+    @discardableResult
+    func isStatusFirstLaunch(set firstLaunch: Bool = true) -> Bool {
         let defaults = UserDefaults.standard
         let firstLaunchKey = "isStatusFirstLaunch"
         if defaults.object(forKey: firstLaunchKey) == nil {
-            defaults.set(true, forKey: firstLaunchKey)
+            if !firstLaunch {
+                defaults.set(true, forKey: firstLaunchKey)
+            }
             return true
         } else {
             return false
         }
     }
     
-    func isProfileFirstLaunch() -> Bool {
+    @discardableResult
+    func isProfileFirstLaunch(set firstLaunch: Bool = true) -> Bool {
         let defaults = UserDefaults.standard
         let firstLaunchKey = "isProfileFirstLaunch"
         if defaults.object(forKey: firstLaunchKey) == nil {
-            defaults.set(true, forKey: firstLaunchKey)
+            if !firstLaunch {
+                defaults.set(true, forKey: firstLaunchKey)
+            }
             return true
         } else {
             return false

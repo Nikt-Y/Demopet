@@ -34,17 +34,20 @@ struct HomeView: View {
     
     var body: some View {
         ZStack(alignment: .top) {
-            ScrollView() {
-                if let dialogInfo = getDialogText() {
-                    DialogCloudView(text: dialogInfo.text, activityType: dialogInfo.activity)
+            ScrollView(showsIndicators: false) {
+                VStack {
+                    if let dialogInfo = getDialogText() {
+                        DialogCloudView(text: dialogInfo.text, activityType: dialogInfo.activity)
+                    }
+                    Image(petViewModel.currentPet.animalType.bigIconName)
+                        .resizable()
+                        .scaledToFit()
+                        .padding(.horizontal, 20)
                 }
-                Image(petViewModel.currentPet.animalType.bigIconName)
-                    .resizable()
-                    .scaledToFit()
-                    .padding(.horizontal, 20)
+                .padding(.top, 200)
             }
             .padding()
-            .padding(.top, 200)
+            .padding(.bottom, 60)
             CustomDropDown()
                 .padding()
             
@@ -55,7 +58,10 @@ struct HomeView: View {
                         title: NSLocalizedString("tutorial_title", comment: ""),
                         message: NSLocalizedString("home_tutorial", comment: ""),
                         primaryButtonTitle: NSLocalizedString("okey", comment: ""),
-                        primaryButtonAction: {showAllert = false},
+                        primaryButtonAction: {
+                            PetViewModel.shared.isHomeFirstLaunch(set: false)
+                            showAllert = false
+                        },
                         secondaryButtonTitle: "",
                         secondaryButtonAction: {}
                     )

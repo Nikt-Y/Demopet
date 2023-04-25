@@ -76,6 +76,7 @@ struct StatusView: View {
                         }
                     }
                 }
+                .padding(.bottom, 60)
             }
             .padding(.top, 100)
             CustomDropDown()
@@ -88,7 +89,10 @@ struct StatusView: View {
                         title: NSLocalizedString("tutorial_title", comment: ""),
                         message: NSLocalizedString("status_tutorial", comment: ""),
                         primaryButtonTitle: NSLocalizedString("okey", comment: ""),
-                        primaryButtonAction: {showAllert = false},
+                        primaryButtonAction: {
+                            showAllert = false
+                            PetViewModel.shared.isStatusFirstLaunch(set: false)
+                        },
                         secondaryButtonTitle: "",
                         secondaryButtonAction: {}
                     )

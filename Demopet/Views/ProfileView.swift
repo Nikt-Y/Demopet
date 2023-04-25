@@ -53,6 +53,7 @@ struct ProfileView: View {
                         }
                     }
                 }
+                .padding(.bottom, 60)
             }
             .padding()
             .padding(.top, 70)
@@ -67,7 +68,10 @@ struct ProfileView: View {
                         title: NSLocalizedString("tutorial_title", comment: ""),
                         message: NSLocalizedString("profile_tutorial", comment: ""),
                         primaryButtonTitle: NSLocalizedString("okey", comment: ""),
-                        primaryButtonAction: {showAllert = false},
+                        primaryButtonAction: {
+                            showAllert = false
+                            PetViewModel.shared.isProfileFirstLaunch(set: false)
+                        },
                         secondaryButtonTitle: "",
                         secondaryButtonAction: {}
                     )

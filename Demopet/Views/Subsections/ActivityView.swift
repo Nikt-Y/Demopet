@@ -151,7 +151,7 @@ struct ActivityView: View {
                         secondaryTitle: NSLocalizedString("continue", comment: ""),
                         secondaryAction: {
                             overTime = true
-                            dismiss()
+                            showAlert = false
                         })
                 } else {
                     updateAlertConfig(
