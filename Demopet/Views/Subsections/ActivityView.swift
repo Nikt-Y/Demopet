@@ -109,7 +109,7 @@ struct ActivityView: View {
                     HStack {
                         Image(systemName: "arrow.left")
                             .foregroundColor(Color.black)
-                        Text("Назад")
+                        Text(NSLocalizedString("back", comment: ""))
                             .foregroundColor(Color.black)
                     }
                     .padding(.horizontal, 20)

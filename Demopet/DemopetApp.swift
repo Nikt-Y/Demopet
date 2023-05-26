@@ -10,7 +10,7 @@ import SwiftUI
 @main
 struct DemopetApp: App {
     init() {
-            NotificationManager.shared.requestAuthorization()
+            NotificationManager.requestAuthorization()
         }
     
     var body: some Scene {

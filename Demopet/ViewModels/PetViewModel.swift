@@ -17,13 +17,13 @@ class PetViewModel: ObservableObject {
     private let petsKey = "petsKey"
     
     init() {
-                if let savedData = UserDefaults.standard.data(forKey: petsKey),
-                   let decodedPets = try? JSONDecoder().decode([Pet].self, from: savedData) {
-                    pets = decodedPets
-                    currentPet = pets.count > 0 ? pets[0] : Pet.example1
-                    return
-                }
-                pets = []
+        if let savedData = UserDefaults.standard.data(forKey: petsKey),
+           let decodedPets = try? JSONDecoder().decode([Pet].self, from: savedData) {
+            pets = decodedPets
+            currentPet = pets.count > 0 ? pets[0] : Pet.example1
+            return
+        }
+        pets = []
     }
     
     @discardableResult
@@ -72,7 +72,7 @@ class PetViewModel: ObservableObject {
         for (activity, dates) in currentPet.schedule {
             let repeatFrequency = currentPet.animalType.getActivitiesFrequency(of: activity).unit
             for date in dates {
-                NotificationManager.shared.scheduleNotification(pet: currentPet, activity: activity, time: date, repeatFrequency: repeatFrequency)
+                NotificationManager.scheduleNotification(pet: currentPet, activity: activity, time: date, repeatFrequency: repeatFrequency)
             }
         }
     }
@@ -81,7 +81,7 @@ class PetViewModel: ObservableObject {
         for (activity, dates) in currentPet.schedule {
             if currentPet.animalType.getActivitiesFrequency(of: activity).unit == .day {
                 for date in dates {
-                    NotificationManager.shared.deleteNotification(pet: currentPet, activity: activity, time: date)
+                    NotificationManager.deleteNotification(pet: currentPet, activity: activity, time: date)
                 }
             }
         }

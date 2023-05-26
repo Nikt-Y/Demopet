@@ -9,9 +9,7 @@ import Foundation
 import UserNotifications
 
 class NotificationManager {
-    static let shared = NotificationManager()
-    
-    func requestAuthorization() {
+    static func requestAuthorization() {
         UNUserNotificationCenter.current().requestAuthorization(options: [.alert, .sound, .badge]) { granted, error in
             if let error = error {
                 print("Error requesting notification authorization: \(error.localizedDescription)")
@@ -19,7 +17,7 @@ class NotificationManager {
         }
     }
     
-    func scheduleNotification(pet: Pet, activity: ActivityType, time: Date, repeatFrequency: Calendar.Component) {
+    static func scheduleNotification(pet: Pet, activity: ActivityType, time: Date, repeatFrequency: Calendar.Component) {
         let content = UNMutableNotificationContent()
         content.title = String(format: NSLocalizedString("notif_title", comment: ""), pet.name, activity.title())
         content.body = String(format: NSLocalizedString("notif_body", comment: ""), activity.title().lowercased(), pet.name)
@@ -56,7 +54,7 @@ class NotificationManager {
         }
     }
     
-    func deleteNotification(pet: Pet, activity: ActivityType, time: Date) {
+    static func deleteNotification(pet: Pet, activity: ActivityType, time: Date) {
         let calendar = Calendar.current
         let hour = calendar.component(.hour, from: time)
         let minute = calendar.component(.minute, from: time)
