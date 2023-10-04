@@ -1,7 +1,7 @@
 # DemoPet - iOS Pet Ownership Simulator
 
 <a href="https://apps.apple.com/us/app/demopet/id6448067694">
-  <img src="/ReadMeFiles/logo.png" width="95" height="95">
+  <img src="/ReadMeFiles/logo.png" width="95" height="95" style="border-radius: 15%;">
 </a>
 
 ## Overview
